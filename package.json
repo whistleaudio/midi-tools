@@ -1,0 +1,8 @@
+{
+  "name": "midi-tools",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "index.js",
+  "author": "Nathan Ward",
+  "license": "MIT"
+}
