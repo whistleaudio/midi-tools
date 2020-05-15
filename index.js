@@ -21,21 +21,20 @@ export const noteNames = [
   'b',
 ];
 
-// TODO: Delete this in JavaScript code
-const lowestNotesObject = {
-  c: 0,
-  'c#': 1,
-  d: 2,
-  'd#': 3,
-  e: 4,
-  f: 5,
-  'f#': 6,
-  g: 7,
-  'g#': 8,
-  a: 9,
-  'a#': 10,
-  b: 11,
-};
+// const lowestNotes = {
+//   c: 0,
+//   'c#': 1,
+//   d: 2,
+//   'd#': 3,
+//   e: 4,
+//   f: 5,
+//   'f#': 6,
+//   g: 7,
+//   'g#': 8,
+//   a: 9,
+//   'a#': 10,
+//   b: 11,
+// };
 
 /** An object with note names as keys and the lowest available MIDI note numbers
  * as values
@@ -117,13 +116,21 @@ export function getChord(
   numberOfNotes = 3,
 ) {
   const scale = getScale(scaleRootNoteName, octave, mode);
+  const shapes = { triad: [0, 2, 4] };
+  const shape = shapes.triad;
+  const indexes = [];
 
-  // TODO: scale[7] doesn't exist
-  return [2, 4, 7].map((note) => scale[note]);
+  for (let step = 0; step < numberOfNotes; step++) {
+    indexes.push(
+      shape[step % shape.length] + 7 * Math.floor(step / shape.length),
+    );
+  }
+
+  return indexes.map((note) => {
+    const octaveOffset = Math.floor(note / 7);
+    return scale[((note % 7) + 7) % 7] + 12 * octaveOffset;
+  });
 }
 
-export function getArpeggioNotes(rootNote, key = 'c4') {}
-
-export function arpNotes() {
-  return [33, 36, 40];
-}
+// TODO: Add types of arpeggios
+function getArpeggioNotes() {}
