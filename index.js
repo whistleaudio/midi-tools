@@ -4,37 +4,22 @@
  * may refer to the same note as c3 instead of c4.
  */
 
-/** An array of the 12 note names from c through b (using lowercase letters and
- * sharps, e.g. "c#") */
+/** An array of the 12 note names from C through B (using uppercase letters and
+ * sharps, e.g. "C#") */
 export const noteNames = [
-  'c',
-  'c#',
-  'd',
-  'd#',
-  'e',
-  'f',
-  'f#',
-  'g',
-  'g#',
-  'a',
-  'a#',
-  'b',
+  'C',
+  'C#',
+  'D',
+  'D#',
+  'E',
+  'F',
+  'F#',
+  'G',
+  'G#',
+  'A',
+  'A#',
+  'B',
 ];
-
-// const lowestNotes = {
-//   c: 0,
-//   'c#': 1,
-//   d: 2,
-//   'd#': 3,
-//   e: 4,
-//   f: 5,
-//   'f#': 6,
-//   g: 7,
-//   'g#': 8,
-//   a: 9,
-//   'a#': 10,
-//   b: 11,
-// };
 
 /** An object with note names as keys and the lowest available MIDI note numbers
  * as values
@@ -47,17 +32,17 @@ export const lowestNotes = noteNames.reduce(
   {},
 );
 
-/** Given a note name, e.g. "c#", return the lowest available MIDI note. */
+/** Given a `noteName`, e.g. "C#", return the lowest available MIDI note, or -1
+ * if `noteName` is invalid. */
 function getLowestMidiNote(noteName) {
-  return lowestNotes[noteName];
+  return lowestNotes[noteName] ?? -1;
 }
 
-/** Given a `noteName`, e.g. "c#", and an octave, e.g. `4`, return the MIDI note
- *  number. Defaults to the middle octave (4).
- */
-export function getMidiNote(noteName = 'c', octave = 4) {
-  const LOWEST_VALID_MIDI_NOTE = 0; // c-1
-  const HIGHEST_VALID_MIDI_NOTE = 127; // g9
+/** Given a `noteName`, e.g. "C#", and an octave, e.g. `4`, return the MIDI note
+ * number. Defaults to the middle octave (4). */
+export function getMidiNote(noteName = 'C', octave = 4) {
+  const LOWEST_VALID_MIDI_NOTE = 0; // C-1
+  const HIGHEST_VALID_MIDI_NOTE = 127; // G9
 
   return Math.min(
     Math.max(
@@ -68,6 +53,7 @@ export function getMidiNote(noteName = 'c', octave = 4) {
   );
 }
 
+/** Array of mode names */
 export const modeNames = [
   'ionian',
   'dorian',
@@ -80,39 +66,41 @@ export const modeNames = [
   'melodic',
 ];
 
-const modes = {
+/** Map of mode names to scale, represented as an array of 7 semitone
+ * differences from the root note of the scale */
+export const modes = {
   //// Diatonic heptatonic scales ////
-  // Major (Ionian): "ionian" or "major"
+  // Major (Ionian)
   ionian: [0, 2, 4, 5, 7, 9, 11], // W–W–H–W–W–W–H
   dorian: [0, 2, 3, 5, 7, 9, 10], // W–H–W–W–W–H–W
   phrygian: [0, 1, 3, 5, 7, 8, 10], // H–W–W–W–H–W–W
   lydian: [0, 2, 4, 6, 7, 9, 11], // W–W–W–H–W–W–H
   mixolydian: [0, 2, 4, 5, 7, 9, 10], // W–W–H–W–W–H–W
-  // Natural minor (Aeolian): "aeolian" or "minor"
+  // Natural minor (Aeolian)
   aeolian: [0, 2, 3, 5, 7, 8, 10], // W–H–W–W–H–W–W
   locrian: [0, 1, 3, 5, 6, 8, 10], // H–W–W–H–W–W–W
 
   //// Non-diatonic heptatonic cales ////
-  // Harmonic minor (Aeolian ♯7): "harmonic"
+  // Harmonic minor (Aeolian ♯7)
   harmonic: [0, 2, 3, 5, 7, 8, 11], // W–H–W–W–H–Aug2nd–H
-  // Ascending melodic minor aka Jazz minor (Ionian ♭3): "melodic", "jazz"
+  // Ascending melodic minor aka Jazz minor (Ionian ♭3)
   melodic: [0, 2, 3, 5, 7, 9, 11], // W–H–W–W–W–W–H
 };
-modes.major = modes.ionian; // Alias "major" to "ionian"
-modes.minor = modes.aeolian; // Alias "minor" to "aeolian"
-modes.jazz = modes.melodic; // Alias "melodic" to "jazz"
-export { modes };
 
-export function getScale(scaleRootNoteName = 'c', octave = 4, mode = 'major') {
+/** Given a root note and mode, return a scale, represented as an array of 7
+ * MIDI note numbers */
+export function getScale(scaleRootNoteName = 'C', octave = 4, mode = 'ionian') {
   const rootNoteNumber = getMidiNote(scaleRootNoteName, octave);
 
   return modes[mode].map((interval) => rootNoteNumber + interval);
 }
 
+/** Given a root note, mode, and number of note, return a chord, represented as
+ * an array of MIDI note numbers */
 export function getChord(
-  scaleRootNoteName = 'c',
+  scaleRootNoteName = 'C',
   octave = 4,
-  mode = 'major',
+  mode = 'ionian',
   numberOfNotes = 3,
 ) {
   const scale = getScale(scaleRootNoteName, octave, mode);
@@ -131,6 +119,3 @@ export function getChord(
     return scale[((note % 7) + 7) % 7] + 12 * octaveOffset;
   });
 }
-
-// TODO: Add types of arpeggios
-function getArpeggioNotes() {}
