@@ -63,7 +63,7 @@ const string modeNames[9] = {
 };
 
 /** A Scale is defined as an array of 7 unsigned integers */
-typedef array<uint8_t, 12> Scale;
+typedef array<uint8_t, 7> Scale;
 
 /** Map of mode names to scale, represented as an array of 7 semitone
  * differences from the root note of the scale */
