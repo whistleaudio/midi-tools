@@ -20,7 +20,7 @@ See source for further documentation or [whistleaudio/midi-app](https://github.c
 
 ### Usage
 
-This library requires C++11 or newer. For example, a macOS install may come with C++98, so you can `brew install gcc` and add `export CXX=/usr/local/bin/g++-9` to `.bashrc` to tell `make` to use the newer compiler.
+This library requires C++11 or newer. For example, a macOS install may come with C++98, so you can `brew install gcc` and add `export CXX=/usr/local/bin/g++-10` to `.bashrc` to tell `make` to use the newer compiler.
 
 Include the `midi-tools.h` header file in your implementation file.
 
