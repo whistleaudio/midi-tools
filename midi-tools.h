@@ -72,7 +72,7 @@ Scale getScale(std::string scaleRootNoteName = "C",
                std::string mode = "ionian") {
   const int rootNoteNumber = getMidiNote(scaleRootNoteName, octave);
   Scale scale = modes.find(mode)->second;
-  for (auto i = 0; i <= mode.size(); i++) {
+  for (auto i = 0; i < scale.size(); i++) {
     scale[i] = scale[i] + rootNoteNumber;
   }
   return scale;
