@@ -52,3 +52,17 @@ This repo includes a `midi-test.cpp` file you can use to quickly test it out.
 ```sh
 make midi-test && ./midi-test
 ```
+
+## Go
+
+`miditools.go` implements similar functions for generating MIDI notes, chords, and arpeggios with Golang.
+
+### Usage
+
+#### Example
+
+This repo includes a `main.go` file you can use to quickly test it out.
+
+```sh
+cd golang && go run .
+```
