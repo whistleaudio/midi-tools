@@ -2,9 +2,11 @@
 #define MIDI_TOOLS_H
 
 #include <array>
+#include <cmath>
 #include <cstdint>
 #include <map>
 #include <string>
+#include <vector>
 
 /** Note: Octave designations are in scientific pitch notation. The MIDI
  * standard and equal temperament apply throughout. For example, C4 denotes
@@ -95,6 +97,37 @@ Scale getScale(std::string scaleRootNoteName = "C", int octave = 4, std::string 
     scale[i] = scale[i] + rootNoteNumber;
   }
   return scale;
+}
+
+/** A Chord is a vector of integers */
+typedef std::vector<int> Chord;
+
+/** Map of chord names to chords (represented as a vector of steps in a scale) */
+const std::map<std::string, Chord> chordShapes = {
+    {"triad", {0, 2, 4}}};
+
+/** Given a root note, mode, and number of notes, return a chord, represented as
+ * an array of MIDI note numbers */
+Chord getChord(std::string scaleRootNoteName = "C", int octave = 4, std::string mode = "ionian", int numberOfNotes = 3)
+{
+  const Scale scale = getScale(scaleRootNoteName, octave, mode);
+  const Chord shape = chordShapes.find("triad")->second;
+  Chord indexes;
+  Chord chord;
+
+  for (auto step = 0; step < numberOfNotes; step++)
+  {
+    int note = shape[step % shape.size()] + 7 * floor(step / shape.size());
+    indexes.push_back(note);
+  }
+
+  for (const auto &note : indexes)
+  {
+    const auto octaveOffset = floor(note / 7);
+    chord.push_back(scale[((note % 7) + 7) % 7] + 12 * octaveOffset);
+  }
+
+  return chord;
 }
 
 #endif // MIDI_TOOLS_H
