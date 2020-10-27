@@ -5,7 +5,6 @@
 #include <cstdint>
 #include <map>
 #include <string>
-using namespace std;
 
 /** Note: Octave designations are in scientific pitch notation. The MIDI
  * standard and equal temperament apply throughout. For example, C4 denotes
@@ -15,13 +14,13 @@ using namespace std;
 
 /** An array of the 12 note names from C through B (using uppercase letters and
  * sharps, e.g. "C#") */
-const array<string, 12> noteNames = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
+const std::array<std::string, 12> noteNames = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
 
 /** Given a `noteName`, e.g. "C#", return the lowest available MIDI note, or -1
  * if `noteName` is invalid. */
-int8_t getLowestMidiNote(string noteName)
+int getLowestMidiNote(std::string noteName)
 {
-  for (int i = 0; i <= noteNames.size(); i++)
+  for (auto i = 0; i <= noteNames.size(); i++)
   {
     if (noteNames[i] == noteName)
       return i;
@@ -31,7 +30,7 @@ int8_t getLowestMidiNote(string noteName)
 
 /** Given a `noteName`, e.g. "C#", and an octave, e.g. `4`, return the MIDI note
  * number. Defaults to the middle octave (4). */
-uint8_t getMidiNote(string noteName = "C", int8_t octave = 4)
+int getMidiNote(std::string noteName = "C", int octave = 4)
 {
   int note = getLowestMidiNote(noteName) + (octave + 1) * 12;
 
@@ -50,7 +49,7 @@ uint8_t getMidiNote(string noteName = "C", int8_t octave = 4)
 }
 
 /** Array of mode names */
-const string modeNames[9] = {
+const std::string modeNames[9] = {
     "ionian",
     "dorian",
     "phrygian",
@@ -63,11 +62,11 @@ const string modeNames[9] = {
 };
 
 /** A Scale is defined as an array of 7 unsigned integers */
-typedef array<uint8_t, 7> Scale;
+typedef std::array<int, 7> Scale;
 
 /** Map of mode names to scale, represented as an array of 7 semitone
  * differences from the root note of the scale */
-const map<string, Scale> modes = {
+const std::map<std::string, Scale> modes = {
     //// Diatonic heptatonic scales ////
     // Major (Ionian): "ionian" or "major"
     {"ionian", {0, 2, 4, 5, 7, 9, 11}},     // W–W–H–W–W–W–H
@@ -87,11 +86,11 @@ const map<string, Scale> modes = {
 
 /** Given a root note and mode, return a scale, represented as an array of 7
  * MIDI note numbers */
-Scale getScale(string scaleRootNoteName = "C", int8_t octave = 4, string mode = "ionian")
+Scale getScale(std::string scaleRootNoteName = "C", int octave = 4, std::string mode = "ionian")
 {
-  const uint8_t rootNoteNumber = getMidiNote(scaleRootNoteName, octave);
+  const int rootNoteNumber = getMidiNote(scaleRootNoteName, octave);
   Scale scale = modes.find(mode)->second;
-  for (int i = 0; i <= mode.size(); i++)
+  for (auto i = 0; i <= mode.size(); i++)
   {
     scale[i] = scale[i] + rootNoteNumber;
   }
