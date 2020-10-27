@@ -95,7 +95,7 @@ export function getScale(scaleRootNoteName = 'C', octave = 4, mode = 'ionian') {
   return modes[mode].map((interval) => rootNoteNumber + interval);
 }
 
-/** Given a root note, mode, and number of note, return a chord, represented as
+/** Given a root note, mode, and number of notes, return a chord, represented as
  * an array of MIDI note numbers */
 export function getChord(
   scaleRootNoteName = 'C',

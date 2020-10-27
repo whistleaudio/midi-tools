@@ -14,7 +14,15 @@ import { getMidiNote, getScale, getChord } from 'midi-tools';
 
 See source for further documentation or [whistleaudio/midi-app](https://github.com/whistleaudio/midi-app) for an example usage of the library.
 
-# C++
+#### Example
+
+This repo includes a `midi-test.js` file you can use to quickly try it out. With [Node.js](https://nodejs.org) installed, run the following to print a scale and chord:
+
+```sh
+node midi-test.js
+```
+
+## C++
 
 `miditools.h` implements similar functions for generating MIDI notes, chords, and arpeggios in C++.
 
@@ -36,3 +44,11 @@ int main()
 ```
 
 If your file is named `midi.cpp`, run it with `make midi && ./midi`.
+
+#### Example
+
+This repo includes a `midi-test.cpp` file you can use to quickly test it out.
+
+```sh
+make midi-test && ./midi-test
+```
