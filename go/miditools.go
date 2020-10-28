@@ -8,7 +8,9 @@ package miditools
 
 /** An array of the 12 note names from C through B (using uppercase letters and
  * sharps, e.g. "C#") */
-var noteNames = [12]string{"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"}
+var noteNames = [12]string{
+	"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B",
+}
 
 /** Given a `noteName`, e.g. "C#", return the lowest available MIDI note, or -1
  * if `noteName` is invalid. */
@@ -67,7 +69,11 @@ var modes = map[string]Scale{
 
 /** Given a root note and mode, return a scale, represented as an array of 7
  * MIDI note numbers */
-func GetScale(scaleRootNoteName string, octave int, mode string) Scale {
+func GetScale(
+	scaleRootNoteName string,
+	octave int,
+	mode string,
+) Scale {
 	rootNoteNumber := GetMidiNote(scaleRootNoteName, octave)
 	scale := modes[mode]
 	for i := 0; i < len(scale); i++ {
@@ -81,13 +87,16 @@ type Chord = []int
 
 /** Map of chord names to chords (represented as a vector of steps in a scale)
  */
-var chordShapes = map[string]Chord{
-	"triad": {0, 2, 4},
-}
+var chordShapes = map[string]Chord{"triad": {0, 2, 4}}
 
 /** Given a root note, mode, and number of notes, return a chord, represented as
  * an array of MIDI note numbers */
-func GetChord(scaleRootNoteName string, octave int, mode string, numberOfNotes int) Chord {
+func GetChord(
+	scaleRootNoteName string,
+	octave int,
+	mode string,
+	numberOfNotes int,
+) Chord {
 	var scale = GetScale(scaleRootNoteName, octave, mode)
 	shape := chordShapes["triad"]
 	var indexes Chord

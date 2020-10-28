@@ -1,5 +1,9 @@
 BasedOnStyle: Google
 
+AlignAfterOpenBracket: AlwaysBreak
+AllowAllArgumentsOnNextLine: false
+AllowAllParametersOfDeclarationOnNextLine: false
+BinPackArguments: false
+BinPackParameters: false
 DerivePointerAlignment: false
 PointerAlignment: Left
-BinPackParameters: false
