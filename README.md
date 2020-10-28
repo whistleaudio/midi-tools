@@ -2,21 +2,24 @@
 
 ## JavaScript
 
-`index.js` exports some basic functions for generating MIDI notes, chords, and arpeggios.
+Files for the JavaScript project are in the repository's root. `index.js` exports some basic functions for generating MIDI notes, chords, and arpeggios.
 
 ### Usage
 
 This library requires ES2020 or newer. Run `npm install whistleaudio/midi-tools` in your JavaScript project, and then consume the exported functions, e.g.:
 
 ```js
-import { getMidiNote, getScale, getChord } from 'midi-tools';
+import { getChord } from 'midi-tools';
+
+const chord = getChord("A", 4, "aeolian", 3);
+console.log(chord.join(' '));
 ```
 
 See source for further documentation or [whistleaudio/midi-app](https://github.com/whistleaudio/midi-app) for an example usage of the library.
 
 #### Example
 
-This repo includes a `midi-test.js` file you can use to quickly try it out. With [Node.js](https://nodejs.org) installed, run the following to print a scale and chord:
+This repo includes a `js/midi-test.js` file you can use to quickly try it out. With [Node.js](https://nodejs.org) installed, run the following to print a scale and chord:
 
 ```sh
 node midi-test.js
@@ -24,7 +27,7 @@ node midi-test.js
 
 ## C++
 
-`miditools.h` implements similar functions for generating MIDI notes, chords, and arpeggios in C++.
+The `c++` folder contains the C++ project. `miditools.h` implements similar functions for generating MIDI notes, chords, and arpeggios in C++. Note that `midi-tools.h` defines a couple type aliases: a `Scale` as an array of 7 integers and a `Chord` as a vector of integers.
 
 ### Usage
 
@@ -38,31 +41,47 @@ Include the `midi-tools.h` header file in your implementation file.
 
 int main()
 {
-  int note = getMidiNote("A", 4);
-  std::cout << note;
+  const Chord chord = getChord("A", 4, "aeolian", 3);
+  for (const int& value : chord) {
+    std::cout << value << ' ';
+  }
 }
 ```
-
-If your file is named `midi.cpp`, run it with `make midi && ./midi`.
 
 #### Example
 
 This repo includes a `midi-test.cpp` file you can use to quickly test it out.
 
 ```sh
-make midi-test && ./midi-test
+cd c++ && make midi-test && ./midi-test
 ```
 
 ## Go
 
-`miditools.go` implements similar functions for generating MIDI notes, chords, and arpeggios with Golang.
+The `go` folder contains the Go project. `miditools.go` implements similar functions for generating MIDI notes, chords, and arpeggios with Golang. Note that `miditools.go` defines a couple types: a `Scale` as an array of 7 integers and a `Chord` as a slice of integers.
 
 ### Usage
+
+From the same module, `miditools.go` can be used by importing "github.com/whistleaudio/miditools" to use functions like `miditools.GetChord()`.
+
+```go
+package main
+
+import (
+	"fmt"
+	"github.com/whistleaudio/miditools"
+)
+
+func main() {
+	fmt.Println(miditools.GetChord("A", 4, "aeolian", 3)) // [69 72 76]
+}
+
+```
 
 #### Example
 
 This repo includes a `main.go` file you can use to quickly test it out.
 
 ```sh
-cd golang && go run .
+cd go && go run cmd/main.go
 ```

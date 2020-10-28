@@ -1,4 +1,4 @@
-package main
+package miditools
 
 /** Note: Octave designations are in scientific pitch notation. The MIDI
  * standard and equal temperament apply throughout. For example, C4 denotes
@@ -12,7 +12,7 @@ var noteNames = [12]string{"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A",
 
 /** Given a `noteName`, e.g. "C#", return the lowest available MIDI note, or -1
  * if `noteName` is invalid. */
-func getLowestMidiNote(noteName string) int {
+func GetLowestMidiNote(noteName string) int {
 	for i := 0; i <= len(noteNames); i++ {
 		if noteNames[i] == noteName {
 			return i
@@ -23,8 +23,8 @@ func getLowestMidiNote(noteName string) int {
 
 /** Given a `noteName`, e.g. "C#", and an octave, e.g. `4`, return the MIDI note
  * number. Defaults to the middle octave (4). */
-func getMidiNote(noteName string, octave int) int {
-	note := getLowestMidiNote(noteName) + (octave+1)*12
+func GetMidiNote(noteName string, octave int) int {
+	note := GetLowestMidiNote(noteName) + (octave+1)*12
 
 	if note < 0 {
 		return 0 // C-1
@@ -48,7 +48,7 @@ var modeNames = [9]string{
 	"melodic",
 }
 
-/** A Scale is defined as an array of 7 unsigned integers */
+/** A Scale is defined as an array of 7 integers */
 type Scale = [7]int
 
 /** Map of mode names to scale, represented as an array of 7 semitone
@@ -67,8 +67,8 @@ var modes = map[string]Scale{
 
 /** Given a root note and mode, return a scale, represented as an array of 7
  * MIDI note numbers */
-func getScale(scaleRootNoteName string, octave int, mode string) Scale {
-	rootNoteNumber := getMidiNote(scaleRootNoteName, octave)
+func GetScale(scaleRootNoteName string, octave int, mode string) Scale {
+	rootNoteNumber := GetMidiNote(scaleRootNoteName, octave)
 	scale := modes[mode]
 	for i := 0; i < len(scale); i++ {
 		scale[i] = scale[i] + rootNoteNumber
@@ -87,8 +87,8 @@ var chordShapes = map[string]Chord{
 
 /** Given a root note, mode, and number of notes, return a chord, represented as
  * an array of MIDI note numbers */
-func getChord(scaleRootNoteName string, octave int, mode string, numberOfNotes int) Chord {
-	var scale = getScale(scaleRootNoteName, octave, mode)
+func GetChord(scaleRootNoteName string, octave int, mode string, numberOfNotes int) Chord {
+	var scale = GetScale(scaleRootNoteName, octave, mode)
 	shape := chordShapes["triad"]
 	var indexes Chord
 	var chord Chord

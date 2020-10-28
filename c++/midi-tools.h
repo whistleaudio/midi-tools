@@ -48,7 +48,7 @@ const std::string modeNames[9] = {
     "aeolian", "locrian", "harmonic", "melodic",
 };
 
-/** A Scale is defined as an array of 7 unsigned integers */
+/** A Scale is defined as an array of 7 integers */
 typedef std::array<int, 7> Scale;
 
 /** Map of mode names to scale, represented as an array of 7 semitone
